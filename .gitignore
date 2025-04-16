@@ -1,0 +1,20 @@
+# Ignora a pasta de dados coletados
+carla_validation/data/
+data/
+
+# Ignora arquivos temporários do CARLA
+*.log
+*.png
+*.jpg
+
+# Ignora arquivos do PyGame/Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# Ignora configurações de IDE
+.vscode/
+.idea/
