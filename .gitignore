@@ -1,6 +1,7 @@
 # Ignora a pasta de dados coletados
 carla_validation/data/
 data/
+realtime_log.csv
 
 # Ignora arquivos temporários do CARLA
 *.log
