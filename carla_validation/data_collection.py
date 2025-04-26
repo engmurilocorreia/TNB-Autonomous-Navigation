@@ -63,8 +63,14 @@ class IMUProcessor:
         # Por simplicidade, vamos apenas imprimir os dados
         print(f"Time: {self.timestamp:.2f} | Acc: {self.accelerometer} | Gyro: {self.gyroscope} | Compass: {self.compass:.2f}")
 
-# Função para salvar os dados IMU em formato comprimido
-def save_imu_data(imu_data, frame_id, base_dir, sensor_type="imu"):
+# Função para salvar os dados IMU + controles em formato .npz comprimido
+def save_imu_data(imu_data, control, frame_id, base_dir, sensor_type="imu"):
+    """
+    imu_data: dict com chaves 'timestamp', 'accelerometer', 'gyroscope', 'compass'
+    control:  carla.VehicleControl (throttle, steer, brake, etc.)
+    frame_id: int, número do frame
+    base_dir: pasta raiz onde vão os subdiretórios
+    """
     save_path = os.path.join(base_dir, sensor_type, f"frame_{frame_id:06d}.npz")
     np.savez_compressed(
         save_path,
@@ -72,9 +78,12 @@ def save_imu_data(imu_data, frame_id, base_dir, sensor_type="imu"):
         accelerometer=imu_data['accelerometer'],
         gyroscope=imu_data['gyroscope'],
         compass=imu_data['compass'],
+        # novos campos de controle
+        throttle=control.throttle,
+        steer=control.steer,
+        brake=control.brake,
         frame_id=frame_id
     )
-    return
 
 # ===================================================
 # CONFIGURAÇÃO DOS VEÍCULOS
@@ -93,7 +102,7 @@ for spawn_point in random.sample(spawn_points, len(spawn_points)):
 if ego_vehicle is None:
     raise RuntimeError("Não foi possível spawnar o veículo ego!")
 
-for _ in range(90):
+for _ in range(10): # Número de veículos spawnados
     spawn_point = random.choice(spawn_points)
     bp = random.choice(world.get_blueprint_library().filter('vehicle.*'))
     vehicle = world.try_spawn_actor(bp, spawn_point)
@@ -123,7 +132,6 @@ imu_sensor.listen(lambda data: imu_processor.imu_callback(data))
 # ===================================================
 # LOOP PRINCIPAL
 # ===================================================
-import pygame
 pygame.init()
 gameDisplay = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock()
@@ -135,9 +143,9 @@ running = True
 while running:
     world.tick()
     frame_count += 1
-    
+
     gameDisplay.fill((0, 0, 0))
-    
+
     # Exibição simples dos dados do IMU na tela
     font = pygame.font.Font(None, 24)
     if imu_processor.timestamp is not None:
@@ -146,23 +154,27 @@ while running:
         imu_text = "Aguardando dados IMU..."
     text_surface = font.render(imu_text, True, (255, 255, 255))
     gameDisplay.blit(text_surface, (20, 20))
-    
-    # Salva os dados do IMU em intervalos definidos
+
+    # A cada SAVE_INTERVAL quadros, salvamos IMU + controle
     if frame_count % SAVE_INTERVAL == 0 and imu_processor.timestamp is not None:
-        # Preparamos um dicionário com os dados atuais
+        # Dados IMU
         imu_data = {
             'timestamp': imu_processor.timestamp,
             'accelerometer': imu_processor.accelerometer,
             'gyroscope': imu_processor.gyroscope,
             'compass': imu_processor.compass
         }
+        # Comando de controle do ego
+        control = ego_vehicle.get_control()
+        # Escolhe pasta de treino/validação
         base_path = TRAIN_DIR if np.random.rand() < 0.8 else VAL_DIR
-        save_imu_data(imu_data, frame_count, base_path, sensor_type="imu")
-        print(f"Frame {frame_count:06d} salvo.")
-    
+        # Salva tudo em um .npz
+        save_imu_data(imu_data, control, frame_count, base_path, sensor_type="imu")
+        print(f"Frame {frame_count:06d} salvo com controle: throttle={control.throttle:.2f}, steer={control.steer:.2f}, brake={control.brake:.2f}")
+
     pygame.display.flip()
     clock.tick(20)  # Limita a 20 FPS
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
