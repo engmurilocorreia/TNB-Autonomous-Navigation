@@ -1,3 +1,242 @@
+# Language / Idioma
+- [English](#english)
+- [Português-BR](#português-br)
+
+---
+---
+
+# English
+
+# Temporal Naive Bayes (TNB) for Autonomous Navigation
+
+This repository implements an adaptation of the classic Naive Bayes for sequential data, called **Temporal Naive Bayes (TNB)**, applied to anomaly detection and multi-class classification using IMU signals in CARLA simulations.
+
+---
+
+## 📋 Table of Contents
+
+- [1. Overview](#1-overview)  
+- [2. Mathematical Foundations](#2-mathematical-foundations)  
+  - 2.1. Classic Naive Bayes  
+  - 2.2. Temporal Naive Bayes  
+  - 2.3. AR(1) Model and MLE  
+- [3. Experimental Pipeline](#3-experimental-pipeline)  
+  - 3.1. Synthetic Data Generation  
+  - 3.2. Offline Data Collection in CARLA  
+  - 3.3. Automatic Labeling  
+  - 3.4. Offline Parameter Estimation  
+  - 3.5. Real-Time Integration  
+  - 3.6. Multi-Class Classification  
+- [4. Folder Structure](#4-folder-structure)  
+- [5. Installation & Dependencies](#5-installation--dependencies)  
+- [6. Running the Scripts](#6-running-the-scripts)  
+- [7. Usage Examples](#7-usage-examples)  
+- [8. Publication](#8-publication)
+
+---
+
+## 1. Overview
+
+Detecting anomalies and classifying maneuvers in autonomous robots/vehicles requires handling the **temporal dependency** in sensor data. Classic **Naive Bayes** assumes feature independence, which breaks down for time series. In TNB we model each reading conditional on the previous one using a **first-order autoregressive (AR(1))** model.
+
+---
+
+## 2. Mathematical Foundations
+
+### 2.1. Classic Naive Bayes
+
+For classification into classes \(C\):
+
+
+$$P(C \mid X)
+\;\propto\;
+P(C)\,\prod_{i=1}^n P(x_i \mid C)$$
+
+
+### 2.2. Temporal Naive Bayes (TNB)
+
+We incorporate first-order dependence between sequential readings:
+
+$$
+P(C \mid X_{1:T})
+\;\propto\;
+P(C)\,\prod_{t=2}^T
+P\bigl(x_t \mid C,\,x_{t-1}\bigr)
+$$
+
+
+### 2.3. AR(1) Model and Maximum Likelihood Estimation
+
+We model each acceleration-magnitude window $x_t$ as:
+
+
+$$x_t = \mu + \alpha\,x_{t-1} + \varepsilon_t,
+\quad
+\varepsilon_t \sim \mathcal{N}(0,\sigma^2).$$
+
+
+The likelihood for a window $x_1,\dots,x_T$ is:
+
+
+$$\mathcal{L}(\mu,\alpha,\sigma)
+=
+\prod_{t=2}^T
+\frac{1}{\sigma\sqrt{2\pi}}
+\exp\!\Bigl[
+-\frac{(x_t-\mu-\alpha x_{t-1})^2}{2\sigma^2}
+\Bigr].$$
+
+
+Maximizing this yields the MLE estimates:
+1. $\displaystyle \hat\alpha
+= \frac{\sum_{t=2}^T (x_t-\mu)\,x_{t-1}}
+       {\sum_{t=2}^T x_{t-1}^2}$
+2. $\displaystyle \hat\mu
+= \frac{1}{T-1}\sum_{t=2}^T (x_t - \hat\alpha\,x_{t-1})$
+3. $\displaystyle \hat\sigma
+= \sqrt{\frac{1}{T-1}
+\sum_{t=2}^T (x_t - \hat\mu - \hat\alpha x_{t-1})^2}$
+
+The code implements these steps iteratively in the `estimate_parameters` function.
+
+---
+
+## 3. Experimental Pipeline
+
+### 3.1. Synthetic Data Generation
+- Simulate AR(1) series with different parameters for two classes.
+- Evaluate accuracy sensitivity versus $\alpha$ and $\sigma$.
+
+**Note:** Synthetic analysis notebooks are in `notebooks/`:  
+`Ideal_Synthetic_TNB.ipynb` and `Realistic_Synthetic_TNB.ipynb`.
+
+### 3.2. Offline Data Collection in CARLA
+- Run CARLA in synchronous mode, collect IMU and vehicle control.
+- Save `.npz` containing:
+  - `timestamp`, `accelerometer`, `gyroscope`, `compass`
+  - `throttle`, `steer`, `brake`
+
+### 3.3. Automatic Labeling
+`auto_label.py` reads control signals and labels each frame:
+- `brake` if `brake > θ_b`
+- `turn` if `|steer| > θ_s`
+- `cruise` if `throttle > θ_t`
+- `idle` otherwise
+
+Generates a reproducible `labels.csv`.
+
+### 3.4. Offline Parameter Estimation
+`parameter_estimation.py`:
+1. Loads `labels.csv` and IMU windows.
+2. Slides fixed-size windows, assigns label by **majority vote**.
+3. Estimates $(\mu_k,\sigma_k,\alpha_k)$ per class via MLE + Cross-Validation.
+4. Saves `class_params.json` with parameters and priors.
+
+### 3.5. Real-Time Integration
+`real_time_multiclass.py`:
+1. Loads `class_params.json`.
+2. Collects IMU into a sliding buffer.
+3. Estimates parameters for the current window.
+4. Computes log-likelihood for each class:
+
+   ```math
+   \ell_k(X)
+   = -\sum_{t=2}^T
+     \frac{(x_t-\mu_k-\alpha_k x_{t-1})^2}{2\sigma_k^2}
+     - (T-1)\ln(\sigma_k\sqrt{2\pi})
+     + \ln P(C_k).
+   ```
+
+5. Classifies $\hat k = \arg\max_k \ell_k(X)$.
+6. Displays prediction on a Pygame dashboard + Matplotlib plots.
+
+### 3.6. Multi-Class Classification
+- Supported classes: `idle`, `cruise`, `turn`, `brake`.
+- Easily extendable to other maneuvers.
+
+---
+
+## 4. Folder Structure
+```bash
+├── TNB-Autonomous-Navigation/
+      ├── carla_validation/
+      │      ├── data/
+      │      ├── multiclass_detection/
+      │      │      ├── data/
+      │      │      ├── auto_label.py
+      │      │      ├── class_params.json
+      │      │      ├── multiclass_detection.py
+      │      │      ├── parameter_estimation.py
+      │      │      └── real_time_multiclass.py                  
+      │      ├── data_collection.py
+      │      ├── offline_processing_imu.py
+      │      ├── plot_imu_data.py
+      │      ├── real_time_tnb_integration.py
+      │      └── t_nb_offline_analysis.py
+      └── notebooks/
+            ├── Ideal_Synthetic_TNB.ipynb
+            └── Realistic_Synthetic_TNB.ipynb
+```
+
+---
+
+## 5. Installation & Dependencies
+```bash
+# (Optional) create virtual environment
+conda create -n tnb python=3.8
+conda activate tnb
+
+# Install required packages
+pip install numpy scipy scikit-learn pygame matplotlib python-pptx carla
+```
+**Note:** Ensure the CARLA server is running on `localhost:2000`.
+
+
+---
+
+## 6. Running the Scripts
+
+### 6.1 Offline Data Collection
+```bash
+python multiclass_detection/data_collection.py
+```
+
+### 6.2 Automatic Labeling
+```bash
+python multiclass_detection/auto_label.py
+```
+
+### 6.3 Parameter Estimation
+```bash
+python multiclass_detection/parameter_estimation.py
+```
+
+### 6.4 Real-Time Multi-Class Demo
+```bash
+python multiclass_detection/real_time_multiclass.py
+```
+
+---
+
+## 7. Usage Examples
+
+- Adjust thresholds in `auto_label.py` for different scenarios.
+
+- Tweak `WINDOW_SIZE` and `KFOLDS` in `parameter_estimation.py` to optimize performance.
+
+- Record the Pygame dashboard in `real_time_multiclass.py` for demonstrations.
+
+---
+
+## 8. Publication
+
+-  Papers and further publication details are **in progress**.
+
+---
+---
+
+# Português-BR
+
 # Temporal Naive Bayes (TNB) para Navegação Autônoma
 
 Este repositório implementa uma adaptação do Naive Bayes clássico para dados sequenciais, denominada **Temporal Naive Bayes (TNB)**, aplicada à detecção de anomalias e classificação multiclasse usando sinais de IMU em simulações no CARLA.
@@ -75,7 +314,9 @@ O código implementa estas etapas iterativamente (função `estimate_parameters`
 
 ### 3.1. Geração de Dados Sintéticos
 - Simula séries AR(1) com parâmetros distintos para duas classes.
-- Avalia sensibilidade de acurácia vs. \(\alpha\) e \(\sigma\).
+- Avalia sensibilidade de acurácia vs. $\alpha$ e $\sigma$.
+
+**Nota:** As análises feitas com dados sintéticos podem ser vistas e reproduzidas nos arquivos da pasta `notebooks/`: `Ideal_Synthetic_TNB.ipynb` e `Realistic_Synthetic_TNB.ipynb`.
 
 ### 3.2. Coleta Offline no CARLA
 - Executa simulação em modo síncrono, coleta IMU e controle do veículo.
