@@ -77,15 +77,10 @@ $$x_t = \mu + \alpha\,x_{t-1} + \varepsilon_t,
 
 The likelihood for a window $x_1,\dots,x_T$ is:
 
-
 $$\mathcal{L}(\mu,\alpha,\sigma)
-=
-\prod_{t=2}^T
-\frac{1}{\sigma\sqrt{2\pi}}
-\exp\!\Bigl[
--\frac{(x_t-\mu-\alpha x_{t-1})^2}{2\sigma^2}
-\Bigr].$$
-
+=\prod_{t=2}^T\frac{1}{\sigma\sqrt{2\pi}}
+\exp\!\Bigl[-\frac{(x_t-\mu-\alpha x_{t-1})^2}{2\sigma^2}\Bigr].$$
+```
 
 Maximizing this yields the MLE estimates:
 1. $\displaystyle \hat\alpha
@@ -139,13 +134,13 @@ Generates a reproducible `labels.csv`.
 3. Estimates parameters for the current window.
 4. Computes log-likelihood for each class:
 
-   ```math
+```math
    \ell_k(X)
    = -\sum_{t=2}^T
      \frac{(x_t-\mu_k-\alpha_k x_{t-1})^2}{2\sigma_k^2}
      - (T-1)\ln(\sigma_k\sqrt{2\pi})
      + \ln P(C_k).
-   ```
+```
 
 5. Classifies $\hat k = \arg\max_k \ell_k(X)$.
 6. Displays prediction on a Pygame dashboard + Matplotlib plots.
