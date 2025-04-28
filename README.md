@@ -106,10 +106,10 @@ Script `real_time_multiclass.py`:
 3. Estima parâmetros da janela corrente.
 4. Calcula log-verossimilhança para cada classe:
 
-$$\ell_k(X)= -\sum_{t=2}^T\frac{(x_t-\mu_k-\alpha_k x_{t-1})^2}{2\sigma_k^2}
-- (T-1)\ln(\sigma_k\sqrt{2\pi})
-+ \ln P(C_k).$$
-
+```math
+\ell_k(X)= -\sum_{t=2}^T\frac{(x_t-\mu_k-\alpha_k x_{t-1})^2}{2\sigma_k^2} - (T-1)\ln(\sigma_k\sqrt{2\pi})
++ \ln P(C_k).
+```
 5. Classifica $\hat k=\arg\max_k \ell_k(X)$.
 6. Exibe predição em painel Pygame + gráficos Matplotlib.
 
