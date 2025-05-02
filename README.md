@@ -79,7 +79,7 @@ The likelihood for a window $x_1,\dots,x_T$ is:
 
 $$\mathcal{L}(\mu,\alpha,\sigma)
 =\prod_{t=2}^T\frac{1}{\sigma\sqrt{2\pi}}
-\exp\!\Bigl[-\frac{(x_t-\mu-\alpha x_{t-1})^2}{2\sigma^2}\Bigr].$$
+\exp\Bigl[-\frac{(x_t-\mu-\alpha x_{t-1})^2}{2\sigma^2}\Bigr].$$
 
 Maximizing this yields the MLE estimates:
 1. $\displaystyle \hat\alpha
@@ -292,7 +292,7 @@ A função de verossimilhança para uma janela $x_1,\dots,x_T$ é:
 
 $$\mathcal{L}(\mu,\alpha,\sigma)
 =\prod_{t=2}^T\frac{1}{\sigma\sqrt{2\pi}}
-\exp\!\Bigl[-\frac{(x_t-\mu-\alpha x_{t-1})^2}{2\sigma^2}\Bigr].$$
+\exp\Bigl[-\frac{(x_t-\mu-\alpha x_{t-1})^2}{2\sigma^2}\Bigr].$$
 
 
 Maximizando esta função obtêm-se as estimativas (MLE):

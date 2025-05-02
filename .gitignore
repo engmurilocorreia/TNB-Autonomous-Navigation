@@ -1,7 +1,17 @@
-# Ignora a pasta de dados coletados
+# Ignora dados coletados
 carla_validation/data/
 data/
 realtime_log.csv
+alpha_sensitivity.csv
+ideal_benchmark_results.csv
+realistic_alpha_sensitivity.csv
+realistic_benchmark_results.csv
+realistic_example_sequence.csv
+realistic_roc_synthetic.csv
+realistic_sigma_sensitivity.csv
+roc_synthetic.csv
+sigma_sensitivity.csv
+carla_benchmark_results.csv
 
 # Ignora arquivos temporários do CARLA
 *.log
