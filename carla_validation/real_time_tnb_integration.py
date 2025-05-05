@@ -193,12 +193,12 @@ while running:
         ax_gauge.barh([0], [sigma_est], color='green')
         ax_gauge.set_xlim(0, SIGMA_ALERT * 1.2)
         ax_gauge.set_yticks([])
-        ax_gauge.set_title(f'σ Gauge (Atual={sigma_est:.2f})')
+        ax_gauge.set_title(f'σ Gauge (Current={sigma_est:.2f})')
 
         ax_hist.clear()
         ax_hist.hist(sigma_history, bins=HIST_BINS, range=(0, SIGMA_ALERT), color='blue')
         ax_hist.set_xlim(0, SIGMA_ALERT)
-        ax_hist.set_title('Histograma σ')
+        ax_hist.set_title('Histogram σ')
 
         fig.canvas.draw()
         plt.pause(0.001)
@@ -214,7 +214,7 @@ while running:
     panel.blit(font.render(f"σ: {sigma_est:.2f}" if sigma_est is not None else "σ: --", True, (255, 255, 255)), (10, y)); y += 30
     panel.blit(font.render(f"α: {alpha_est:.2f}" if alpha_est is not None else "α: --", True, (255, 255, 255)), (10, y)); y += 40
     if sigma_est is not None and sigma_est > SIGMA_ALERT:
-        panel.blit(font.render("! ANOMALIA !", True, (255, 0, 0)), (10, y)); y += 40
+        panel.blit(font.render("! ANOMALY !", True, (255, 0, 0)), (10, y)); y += 40
 
     screen.blit(panel, (800, 0))
     pygame.display.flip()
