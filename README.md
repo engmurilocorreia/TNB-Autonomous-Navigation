@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/967029477.svg)](https://doi.org/10.5281/zenodo.15674482)
+
 # Language / Idioma
 - [English](#english)
 - [Português-BR](#português-br)
