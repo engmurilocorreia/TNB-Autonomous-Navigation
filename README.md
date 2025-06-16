@@ -226,6 +226,12 @@ python multiclass_detection/real_time_multiclass.py
 
 -  Papers and further publication details are **in progress**.
 
+## 📝 License
+
+This project is licensed under the MIT License.  
+See the [LICENSE](./LICENSE) file for more details.
+
+
 ---
 ---
 
@@ -428,3 +434,8 @@ python multiclass_detection/real_time_multiclass.py
 ## 8. Publicação
 
 -  Artigos Publicados: **EM DESENVOLVIMENTO**.
+
+## 📝 Licença
+
+Este projeto está licenciado sob os termos da Licença MIT.  
+Consulte o arquivo [LICENSE](./LICENSE) para mais detalhes.

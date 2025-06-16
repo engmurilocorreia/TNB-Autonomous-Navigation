@@ -1,0 +1,7 @@
+numpy
+scipy
+scikit-learn
+pygame
+matplotlib
+python-pptx
+carla==0.10.0
