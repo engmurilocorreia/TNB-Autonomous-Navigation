@@ -178,8 +178,8 @@ Generates a reproducible `labels.csv`.
 
 ## 5. Installation & Dependencies
 ```bash
-# (Optional) create virtual environment
-conda create -n tnb python=3.8
+# (Optional) Create the virtual environment (We recommend using the conda-forge channel to ensure Python 3.8)
+conda create -n tnb -c conda-forge python=3.8
 conda activate tnb
 
 # Install required packages
@@ -388,8 +388,8 @@ Script `real_time_multiclass.py`:
 
 ## 5. Instalação e Dependências
 ```bash
-# Ambiente virtual opcional
-conda create -n tnb python=3.8
+# (Opcional) Crie o ambiente virtual (Recomendamos o uso do canal conda-forge para garantir o Python 3.8)
+conda create -n tnb -c conda-forge python=3.8
 conda activate tnb
 
 # Instalação de pacotes
