@@ -218,7 +218,7 @@ Detecção de anomalias e classificação de manobras em veículos autônomos re
 
 ## 2. Fundamentos Matemáticos
 
-*(As equações matemáticas são idênticas à seção em inglês acima. O modelo utiliza MLE em formato fechado para extrair estimativas de $\hat\mu$, $\hat\alpha$ e $\hat\sigma$).*
+*(As equações matemáticas são idênticas à seção em inglês acima. O modelo utiliza MLE em formato fechado para extrair estimativas de \(\hat\mu\), \(\hat\alpha\) e \(\hat\sigma\)).*
 
 ---
 
