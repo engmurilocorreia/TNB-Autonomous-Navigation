@@ -10,12 +10,14 @@
 [![Python](https://img.shields.io/badge/Python-3.10-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![CARLA](https://img.shields.io/badge/CARLA-0.10.0-black.svg?logo=carla&logoColor=white)](https://carla.org/)
 
-[🌐 English](#english) • [🇧🇷 Português-BR](#português-br)
+[🌐 English](#english) • [🇧🇷 Português-BR](#portugues)
 
 </div>
 
 ---
 ---
+
+<a id="english"></a>
 
 # English
 
@@ -189,9 +191,7 @@ This work has been accepted for publication in *PeerJ Computer Science* and is o
 > Murilo Guimarães Correia and Alisson Assis Cardoso  
 > *PeerJ Computer Science* (2026). DOI: [10.7717/peerj-cs.4051](https://doi.org/10.7717/peerj-cs.4051)
 
-<details>
-<summary><b>BibTeX Citation</b></summary>
-
+**BibTeX Citation:**
 ```bibtex
 @article{correia2026tnb,
   title={Temporal Naive Bayes: an efficient probabilistic framework for real-time maneuver recognition and anomaly monitoring in autonomous driving},
@@ -207,6 +207,8 @@ This work has been accepted for publication in *PeerJ Computer Science* and is o
 
 ---
 ---
+
+<a id="portugues"></a>
 
 # Português-BR
 
@@ -334,9 +336,7 @@ Este trabalho foi aceito para publicação na *PeerJ Computer Science* e está o
 > Murilo Guimarães Correia e Alisson Assis Cardoso  
 > *PeerJ Computer Science* (2026). DOI: [10.7717/peerj-cs.4051](https://doi.org/10.7717/peerj-cs.4051)
 
-<details>
-<summary><b>Citação em BibTeX</b></summary>
-
+**Citação em BibTeX:**
 ```bibtex
 @article{correia2026tnb,
   title={Temporal Naive Bayes: an efficient probabilistic framework for real-time maneuver recognition and anomaly monitoring in autonomous driving},
@@ -349,7 +349,3 @@ Este trabalho foi aceito para publicação na *PeerJ Computer Science* e está o
   doi={10.7717/peerj-cs.4051}
 }
 ```
-
-## 📝 Licença
-Este projeto está licenciado sob a Licença MIT.  
-Consulte o arquivo [LICENSE](./LICENSE) para detalhes.
