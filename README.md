@@ -1,8 +1,18 @@
-[![DOI](https://zenodo.org/badge/967029477.svg)](https://doi.org/10.5281/zenodo.15674482)
+<div align="center">
 
-# Language / Idioma
-- [English](#english)
-- [Português-BR](#português-br)
+# 🚗 Temporal Naive Bayes (TNB) for Autonomous Navigation
+
+**An efficient probabilistic framework for real-time maneuver recognition and anomaly monitoring in autonomous driving.**
+
+[![PeerJ DOI](https://img.shields.io/badge/PeerJ_CS-10.7717%2Fpeerj--cs.4051-2465d6.svg)](https://doi.org/10.7717/peerj-cs.4051)
+[![Status](https://img.shields.io/badge/Status-In_Production-blueviolet.svg)](https://doi.org/10.7717/peerj-cs.4051)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![CARLA](https://img.shields.io/badge/CARLA-0.10.0-black.svg?logo=carla&logoColor=white)](https://carla.org/)
+
+[🌐 English](#english) • [🇧🇷 Português-BR](#português-br)
+
+</div>
 
 ---
 ---
@@ -172,11 +182,28 @@ jupyter notebook
 ---
 
 ## 8. Publication
-- Papers and further publication details are **under review**.
 
-## 📝 License
-This project is licensed under the MIT License.  
-See the [LICENSE](./LICENSE) file for more details.
+This work has been accepted for publication in *PeerJ Computer Science* and is officially scheduled for publication on **October 22, 2026**.
+
+> **Temporal Naive Bayes: an efficient probabilistic framework for real-time maneuver recognition and anomaly monitoring in autonomous driving**  
+> Murilo Guimarães Correia and Alisson Assis Cardoso  
+> *PeerJ Computer Science* (2026). DOI: [10.7717/peerj-cs.4051](https://doi.org/10.7717/peerj-cs.4051)
+
+<details>
+<summary><b>BibTeX Citation</b></summary>
+
+```bibtex
+@article{correia2026tnb,
+  title={Temporal Naive Bayes: an efficient probabilistic framework for real-time maneuver recognition and anomaly monitoring in autonomous driving},
+  author={Correia, Murilo Guimar{\~a}es and Cardoso, Alisson Assis},
+  journal={PeerJ Computer Science},
+  volume={12},
+  pages={e4051},
+  year={2026},
+  publisher={PeerJ Inc.},
+  doi={10.7717/peerj-cs.4051}
+}
+```
 
 ---
 ---
@@ -218,7 +245,7 @@ Detecção de anomalias e classificação de manobras em veículos autônomos re
 
 ## 2. Fundamentos Matemáticos
 
-*(As equações matemáticas são idênticas à seção em inglês acima. O modelo utiliza MLE em formato fechado para extrair estimativas de \(\hat\mu\), \(\hat\alpha\) e \(\hat\sigma\)).*
+*(As equações matemáticas são idênticas à seção em inglês acima. O modelo utiliza MLE em formato fechado para extrair estimativas de $\hat\mu$, $\hat\alpha$ e $\hat\sigma$).*
 
 ---
 
@@ -300,7 +327,28 @@ jupyter notebook
 ---
 
 ## 8. Publicação
-- Artigos e detalhes de publicação: **EM REVISÃO**.
+
+Este trabalho foi aceito para publicação na *PeerJ Computer Science* e está oficialmente agendado para lançamento no dia **22 de outubro de 2026**.
+
+> **Temporal Naive Bayes: an efficient probabilistic framework for real-time maneuver recognition and anomaly monitoring in autonomous driving**  
+> Murilo Guimarães Correia e Alisson Assis Cardoso  
+> *PeerJ Computer Science* (2026). DOI: [10.7717/peerj-cs.4051](https://doi.org/10.7717/peerj-cs.4051)
+
+<details>
+<summary><b>Citação em BibTeX</b></summary>
+
+```bibtex
+@article{correia2026tnb,
+  title={Temporal Naive Bayes: an efficient probabilistic framework for real-time maneuver recognition and anomaly monitoring in autonomous driving},
+  author={Correia, Murilo Guimar{\~a}es and Cardoso, Alisson Assis},
+  journal={PeerJ Computer Science},
+  volume={12},
+  pages={e4051},
+  year={2026},
+  publisher={PeerJ Inc.},
+  doi={10.7717/peerj-cs.4051}
+}
+```
 
 ## 📝 Licença
 Este projeto está licenciado sob a Licença MIT.  
